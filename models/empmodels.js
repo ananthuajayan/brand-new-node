@@ -62,7 +62,7 @@ const employeeScheme = mongoose.Schema(
         username:{
             type:String,
             required:true
-        }
+        },
     },
     {
         timestamps: true

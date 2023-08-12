@@ -484,9 +484,10 @@ body{
     top: 200px;
     left: 40%;
 }
-#confirm-delete{
+/* #confirm-delete{
     visibility:hidden ;
-}
+    z-index: unset !important;
+} */
 
 .delete-head{
     display: flex;

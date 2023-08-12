@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const user = require('../controller/empcontroler')
 
 const{getemployees,getemployee,postemployee,updemployee,delemployee} = require('../controller/empcontroler');
 
