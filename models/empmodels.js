@@ -33,7 +33,8 @@ const employeeScheme = mongoose.Schema(
         },
         lastName:{
             type:String,
-            required:true},
+            required:true
+        },
     
         password:{
             type:String,
@@ -62,7 +63,7 @@ const employeeScheme = mongoose.Schema(
         username:{
             type:String,
             required:true
-        },
+        }
     },
     {
         timestamps: true

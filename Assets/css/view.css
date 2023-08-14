@@ -161,6 +161,7 @@ img,.full{
 .zero{
     display: flex;
    align-items: center;
+   
 }
 .justify-content-end{
     gap: 5px;
@@ -488,6 +489,7 @@ body{
     visibility:hidden ;
     z-index: unset !important;
 } */
+
 
 .delete-head{
     display: flex;

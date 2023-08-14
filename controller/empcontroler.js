@@ -25,13 +25,14 @@ if(!employee){
 
 // to add an employee
 const postemployee = asyncHandler(async(req,res)=>{
-    console.log("the body is:", req.body)
+    console.log("the body is:", req.body);
     const{ adress,city,country,dob,email,firstName,gender,lastName,password,phone,pin,qualifications,salutation,state,username}=req.body;
-    if(!adress||!city||!country||!dob||!email||!firstName||!gender||!lastName||!password||!phone||!pin||!qualifications||!salutation||!state||!username  ){
+    console.log( adress,city,country,dob,email,firstName,gender,lastName,password,phone,pin,qualifications,salutation,state,username);
+    if(!adress||!city||!country||!dob||!email||!firstName||!gender||!lastName||!password||!phone||!pin||!qualifications||!salutation||!state||!username){
         res.status(400);
         throw new Error("all fields are mandatory");
     }
-    const employee = await Employee.create({
+  const employee = await Employee.create({
         adress,city,country,dob,email,firstName,gender,lastName,password,phone,pin,qualifications,salutation,state,username
     })
     res.status(200).json(employee);
