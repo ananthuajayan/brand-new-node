@@ -6,11 +6,14 @@ const errorHandler = require('./errorHandler/error');
 const dotenv = require('dotenv').config();
 const path = require('path');
 const bodyParser = require('body-parser');
+// const multer = require('multer');
+
 
 dbConnect();
 const app = express(); 
 app.use(bodyParser.urlencoded({extended:true}));
 const port = process.env.PORT || 5000;
+
 
 app.use(express.json());
 
@@ -23,6 +26,9 @@ app.set("view engine","ejs");
 app.use('/css',express.static(path.resolve(__dirname,"Assets/css")));
 app.use('/img',express.static(path.resolve(__dirname,"Assets/img")));
 app.use('/js',express.static(path.resolve(__dirname,"Assets/js")));
+app.use('/uploads',express.static(path.resolve(__dirname,"uploads")));
+
+
 
 
 app.get('/', (req,res) => {

@@ -1,5 +1,19 @@
 const asyncHandler = require('express-async-handler');
 const Employee = require('../models/empmodels');
+const multer = require('multer');
+//image upload
+const storage = multer.diskStorage ({
+    destination:function(req,file,cb){
+        cb(null,'./uploads')
+    },
+    filename:function(req,file,cb){
+        cb(null,file.fieldname+"_"+Date.now()+"_"+file.originalname);
+    }
+})
+
+const upload=multer({
+    storage:storage
+}).single('image')
 
 
 //to get all the contacts
@@ -24,19 +38,46 @@ if(!employee){
 
 
 // to add an employee
-const postemployee = asyncHandler(async(req,res)=>{
-    console.log("the body is:", req.body);
-    const{ adress,city,country,dob,email,firstName,gender,lastName,password,phone,pin,qualifications,salutation,state,username}=req.body;
-    console.log( adress,city,country,dob,email,firstName,gender,lastName,password,phone,pin,qualifications,salutation,state,username);
-    if(!adress||!city||!country||!dob||!email||!firstName||!gender||!lastName||!password||!phone||!pin||!qualifications||!salutation||!state||!username){
-        res.status(400);
-        throw new Error("all fields are mandatory");
-    }
-  const employee = await Employee.create({
-        adress,city,country,dob,email,firstName,gender,lastName,password,phone,pin,qualifications,salutation,state,username
-    })
-    res.status(200).json(employee);
+const postemployee = asyncHandler(async (req, res) => {
+    // Use the 'upload' middleware to process image upload
+    upload(req, res, async function (err) {
+        if (err instanceof multer.MulterError) {
+            // Handle Multer errors here
+            res.status(400).json({ error: 'Image upload error' });
+        } else if (err) {
+            // Handle other errors here
+            res.status(500).json({ error: 'Server error' });
+        } else {
+            const {
+                // other employee fields
+                adress, city, country, dob, email, firstName, gender, lastName,
+                password, phone, pin, qualifications, salutation, state, username
+            } = req.body;
+            console.log(adress, city, country, dob, email, firstName, gender, lastName,
+                password, phone, pin, qualifications, salutation, state, username)
+
+            // 'req.file' contains information about the uploaded image
+            const imageInfo = req.file;
+            
+
+            if (!adress || !city || !country || !dob || !email || !firstName || !gender ||
+                !lastName || !password || !phone || !pin || !qualifications || !salutation ||
+                !state || !username || !imageInfo) {
+                res.status(400).json({ error: 'All fields are mandatory' });
+            }
+
+            // Create an employee with image information
+            const employee = await Employee.create({
+                adress, city, country, dob, email, firstName, gender, lastName,
+                password, phone, pin, qualifications, salutation, state, username,
+                image: imageInfo // Save image information in the employee record
+            });
+
+            res.status(201).json(employee);
+        }
+    });
 });
+
 
 
 
@@ -67,3 +108,4 @@ const delemployee = asyncHandler(async(req,res)=>{
 
 
 module.exports = {getemployees,getemployee,postemployee,updemployee,delemployee}
+
