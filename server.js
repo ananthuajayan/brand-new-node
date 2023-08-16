@@ -23,19 +23,12 @@ app.set("view engine","ejs");
 app.use('/css',express.static(path.resolve(__dirname,"Assets/css")));
 app.use('/img',express.static(path.resolve(__dirname,"Assets/img")));
 app.use('/js',express.static(path.resolve(__dirname,"Assets/js")));
-app.use('/html',express.static(path.resolve(__dirname,"Assets/sho")));
 
 
 app.get('/', (req,res) => {
     res.render('main'); 
   })
 
-  app.get('/', (req,res) => {
-    res.render(''); 
-  })
- 
- 
- 
 app.listen(port,()=>{
     console.log(`server running on port ${port}`)
 }); 

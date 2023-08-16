@@ -1,11 +1,7 @@
 function remove(){
     document.getElementById("confirm-delete").style.visibility = "hidden";
   }
-  function alertz(){
-    document.getElementById("zero").style.visibility = "hidden";
-  }
  
-  
  function ref(){
 let employee = document.getElementById('table-back');
 let output = "";
@@ -40,8 +36,8 @@ fetch("http://localhost:5001/api/employees")
     <td class="dropdown" class= dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <i class="fa-solid fa-ellipsis"></i>
     <ul class="dropdown-menu">
-    <li><a class="dropdown-item" onclick="viewPage('${id}')" ><i class="fa fa-sharp fa-light fa-eye" id="buttonDropdown_action" onclick= " detailsEmployee('${id}') " ></i>view</a></li>
-    <button type="button" class="btn click" data-bs-toggle="modal" data-bs-target="#exampleModa"id = "edit-post";><i class="fa fa-sharp fa-light fa-pen" id="buttonDropdown_action"></i>edit</button>
+    <li><a class="dropdown-item" onclick = "viewPage('${id}')"><i class="fa fa-sharp fa-light fa-eye" id="buttonDropdown_action"></i>view</a></li>
+    <button type="button" class="btn click" data-bs-toggle="modal" data-bs-target="#exampleModa" onclick = " editDetails('${id}')"><i class="fa fa-sharp fa-light fa-pen" id="buttonDropdown_action"></i>edit</button>
       <li><button class="dropdown-item" onclick = "deletion('${id}')"><i class="fa fa-sharp fa-light fa-trash" id="buttonDropdown_action"></i>Delete</button></li>
     </ul>
     
@@ -50,11 +46,17 @@ fetch("http://localhost:5001/api/employees")
     </tr>
     
      `
-     
+    
      employee.innerHTML = output;
 count++;
     })
 })
+}
+
+
+function viewPage(id){
+    window.location.href = `http://127.0.0.1:5500/show.html?id=${id}`;
+
 }
 
 
@@ -77,134 +79,16 @@ async function deletion(id){
     //validation=============================
     
   
-function validate(){
-    var fName = document.getElementById("firstname").value;
-    var regfName =  (/^[A-Za-z]/);
-    if(regfName.test(fName)){
-        document.getElementById("firstname").style.border= "1px solid green";
-    }else{ 
-        document.getElementById("firstname").style.border= "1px solid red";
-        document.getElementById("firstname").focus();
-        return false;
 
-    }
-
-    var sName = document.getElementById("secondname").value;
-    var regsName =  (/^[A-Za-z]/);
-    if(regsName.test(sName)){
-        document.getElementById("secondname").style.border= "1px solid green";
-    }else{
-        document.getElementById("secondname").style.border= "1px solid red";
-        document.getElementById("secondname").focus();
-        return false;
-
-    }
-
-    var userName = document.getElementById("username").value;
-    var  regusername = /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-z]{2,20})/;
-    if(regusername.test(userName)){
-        document.getElementById("username").style.border= "1px solid green";
-    }else{
-        document.getElementById("username").style.border= "1px solid red";
-        document.getElementById("username").focus();
-        return false;
-
-    }
-    
-    var password = document.getElementById("password").value;
-    if(password==""){
-        document.getElementById("password").style.border= "1px solid red";
-        document.getElementById("password").focus();
-        return false;
-    }else{
-        document.getElementById("password").style.border= "1px solid green";
-        
-    }
-
-    var email = document.getElementById("inputEmail4").value;
-    var regemail = /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-z]{2,20})$/;
-    if(regemail.test(email)){
-        document.getElementById("inputEmail4").style.border= "1px solid green";
-    }else{
-        document.getElementById("inputEmail4").style.border= "1px solid red";
-        document.getElementById("inputEmail4").focus();
-        return false;
-
-    }
-
-    var phone = document.getElementById("inputtel4").value;
-    var regphone = /^[7-9][0-9]{9}$/;
-    if(regphone.test(phone)){
-        document.getElementById("inputtel4").style.border= "1px solid green";
-    }else{
-        document.getElementById("inputtel4").style.border= "1px solid red";
-        document.getElementById("inputtel4").focus();
-        return false;
-
-    } 
-
-    var date = document.getElementById("inputdate4").value;
-    if(date==""){
-        document.getElementById("inputdate4").style.border= "1px solid red";
-        document.getElementById("inputdate4").focus();
-        return false;
-    }else{
-        document.getElementById("inputdate4").style.border= "1px solid green";
-        
-    }
-
-    var Address = document.getElementById("inputAddress").value;
-    var regaddress = (/^[A-Za-z0-9]/);
-    if(regaddress.test(Address)){
-        document.getElementById("inputAddress").style.border= "1px solid green";
-    }else{
-        document.getElementById("inputAddress").style.border= "1px solid red";
-        document.getElementById("inputAddress").focus();
-        return false;
-
-    }
-
-    var qualifications = document.getElementById("qualifications").value;
-    var regqulification = (/^[A-Za-z0-9]/);
-    if(regqulification.test(qualifications)){
-        document.getElementById("qualifications").style.border= "1px solid green";
-    }else{
-        document.getElementById("qualifications").style.border= "1px solid red";
-        document.getElementById("qualifications").focus();
-        return false;
-
-    }
-
-    var city = document.getElementById("city").value;
-    var regcity =  (/^[A-Za-z]/);
-    if(regcity.test(city)){
-        document.getElementById("city").style.border= "1px solid green";
-        
-    }else{
-        document.getElementById("city").style.border= "1px solid red";
-        document.getElementById("city").focus();
-        return false;
-    }
-
-    var pin = document.getElementById("pin").value;
-    if(pin==""){
-        document.getElementById("pin").style.border= "1px solid red";
-        document.getElementById("pin").focus();
-        return false;
-    }else{
-        document.getElementById("pin").style.border= "1px solid green";
-        
-    }
-    // refreash();
-}
 
     // add new user===============================
 
 
 const addUser = document.getElementById('modal');
+if(addUser !== null){
 addUser.addEventListener('submit',(e)=>{
     e.preventDefault();
-    var salutation = document.getElementById('salutation').value;
+var salutation = document.getElementById('salutation').value;
 var firstName = document.getElementById('firstname').value;
 var secondName = document.getElementById('secondname').value;
 var email = document.getElementById('inputEmail4').value;
@@ -271,7 +155,7 @@ function formatchange(dob){
    .catch(error => {
     console.error('Error:', error);})
 })
-
+}
   
  
   
@@ -279,5 +163,73 @@ function viewPage(id){
     window.location.href = `http://127.0.0.1:5500/show.html?id=${id}`;
    
 }
+//===========edit user ===============================================================
+
+function editDetails(id){
+    console.log(id);
+ 
+
+    fetch(`http://localhost:5001/api/employees/${id}`,{
+        method:'get'
+    })
+    .then((res)=>res.json())
+    .then((employ)=>{console.log(employ)
+        
+    document.getElementById("edit-salu").value = employ.salutation;
+    document.getElementById("edit-first").value = employ.firstName;
+    document.getElementById("edit-second").value = employ.lastName;
+    document.getElementById("edit-email").value = employ.email;
+    document.getElementById("edit-phone").value = employ.phone;
+    document.getElementById("edit-date").value = employ.dob;
+    document.getElementById("edit-quali").value = employ.qualifications;
+    document.getElementById("edit-country").value = employ.country;
+    document.getElementById("edit-state").value = employ.state;
+    document.getElementById("edit-city").value = employ.city;
+    document.getElementsByName("flexRadioDefault").value = employ.gender;
+    document.getElementById("edit-adress").value = employ.adress;  
+    document.getElementById("edit-pin").value = employ.pin;  
+    document.getElementById("edit-username").value = employ.pin;  
+    document.getElementById("edit-password").value = employ.pin;  
+})
+const formUpdation = document.getElementById('edit-form');
+formUpdation.addEventListener('submit',(e)=>{
+
+    e.preventDefault(); 
+    // console.log(formUpdation);
+    
+    let formupd = {
+        salutation:document.getElementById('edit-salu').value,
+        firstName:document.getElementById('edit-first').value, 
+        lastName:document.getElementById('edit-second').value, 
+        email:document.getElementById('edit-email').value, 
+        phone:document.getElementById('edit-phone').value, 
+        dob:formattedDate,
+        gender:document.getElementsByName('flexRadioDefault').value, 
+        adress :document.getElementById('edit-adress').value, 
+        country:document.getElementById('edit-country').value, 
+        city:document.getElementById('edit-city').value, 
+        state:document.getElementById('edit-state').value,
+        qualifications:document.getElementById('edit-quali').value,
+        pin:document.getElementById('edit-pin').value,
+        username:document.getElementById('edit-username').value,
+        password:document.getElementById('edit-password').value
+        
+    }
+   
+    fetch(`http://localhost:5001/api/employees/${id}`,{
+        method:"PUT",
+        headers:{
+            "content-type":"application/json",
+        },
+        body:JSON.stringify(formupd),
+    }
+)
+.then((res)=>res.json())
+.then(employ => {console.log(employ);})
+ref(); 
 
 
+})
+}
+
+// editDetails(id);
