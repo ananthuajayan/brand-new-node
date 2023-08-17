@@ -51,10 +51,10 @@ const postemployee = asyncHandler(async (req, res) => {
             const {
                 // other employee fields
                 adress, city, country, dob, email, firstName, gender, lastName,
-                password, phone, pin, qualifications, salutation, state, username
+                password, phone, pin, qualifications, salutation, state, username,image
             } = req.body;
             console.log(adress, city, country, dob, email, firstName, gender, lastName,
-                password, phone, pin, qualifications, salutation, state, username)
+                password, phone, pin, qualifications, salutation, state, username,image)
 
             // 'req.file' contains information about the uploaded image
             const imageInfo = req.file;

@@ -158,6 +158,9 @@ img,.full{
     height: 30px;
     margin-right: 5px;
 }
+.pic-setter{
+    border-radius: 10px;
+}
 .zero{
     display: flex;
    align-items: center;

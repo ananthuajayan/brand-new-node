@@ -4,26 +4,21 @@ function remove(){
  
  function ref(){
 let employee = document.getElementById('table-back');
-let output = "";
 let count = 1;
+let output="";
 
 fetch("http://localhost:5001/api/employees")
 .then((res) => res.json())
 .then((employ) =>{ console.log(employ);
 
     employ.forEach(row=>{
-
-// for(i=0;i<employ.length;i++){
-
-    // const post = employ[i];
      var id = row._id;
-    //  console.log(id);
-     output+=`
+    output +=`
      <tr>
     <td scope="row">${count}</th>
         <td class="zero">
             <div class="pic-setter">
-                
+            <img src="${row.image.path}" alt="">
             </div>
             ${row.salutation + " "+row.firstName + " "+row.lastName}
         </td>
@@ -46,8 +41,7 @@ fetch("http://localhost:5001/api/employees")
     </tr>
     
      `
-    
-     employee.innerHTML = output;
+    employee.innerHTML=output;
 count++;
     })
 })
@@ -56,7 +50,7 @@ count++;
 
 function viewPage(id){
     window.location.href = `http://127.0.0.1:5500/show.html?id=${id}`;
-
+   
 }
 
 
@@ -83,86 +77,83 @@ async function deletion(id){
 
     // add new user===============================
 
-
-const addUser = document.getElementById('modal');
-if(addUser !== null){
-addUser.addEventListener('submit',(e)=>{
-    e.preventDefault();
-var salutation = document.getElementById('salutation').value;
-var firstName = document.getElementById('firstname').value;
-var secondName = document.getElementById('secondname').value;
-var email = document.getElementById('inputEmail4').value;
-var telephone = document.getElementById('inputtel4').value;
-var Gender = document.getElementsByName('gender');
-for(i=0; i<Gender.length; i++ ) {
-
-if(Gender[i].checked){
-   var Gender = Gender[i].value;
-}
-}
-var inputAdress = document.getElementById('inputAddress').value;
-var country = document.getElementById('country').value;
-var state = document.getElementById('state').value;
-var city = document.getElementById('city').value;
-var pin = document.getElementById('pin').value;
-// var file = document.getElementById('file').value;
-var qualifications = document.getElementById('qualifications').value;
-var username = document.getElementById('username').value;
-var password = document.getElementById('password').value;
-var date = document.getElementById('inputdate4').value;
-var inputdate4 = formatchange(date);
-function formatchange(dob){
-    const array=dob.split("-"); 
-    let day=array[0];
-    let month=array[1];
-    let year=array[2];  
-
-    let dateformat=day + "-" + month + "-" + year;
-    return dateformat;
-}
-     
-   fetch("http://localhost:5001/api/employees",{
-    method:'POST',
-    headers:{
-        'content-type':'application/json'
-    },
-    body:JSON.stringify({
+    const addUser = document.getElementById('modal');;
+    if(addUser !== null){
+    addUser.addEventListener('submit',(e)=>{
+        e.preventDefault();
+    var salutation = document.getElementById('salutation').value;
+    var firstName = document.getElementById('firstname').value;
+    var secondName = document.getElementById('secondname').value;
+    var email = document.getElementById('inputEmail4').value;
+    var telephone = document.getElementById('inputtel4').value;
+    var Gender = document.getElementsByName('gender');
+    for(i=0; i<Gender.length; i++ ) {
     
-        salutation:salutation,
-        firstName:firstName,
-        lastName:secondName,
-        email:email,
-        phone:telephone,
-        dob:inputdate4,
-        gender:Gender,
-        adress: inputAdress,
-        country:country,
-        state:state,
-        city:city,
-        pin:pin,
-        qualifications:qualifications,
-        username:username,
-        password:password
-     }
-    )
-   })
-   .then(res=>res.json())
-   .then((employ)=>{console.log(employ)
-    ref();
-  })
-  
-
-   .catch(error => {
-    console.error('Error:', error);})
-})
-}
+    if(Gender[i].checked){
+       var Gender = Gender[i].value;
+    }
+    }
+    var inputAdress = document.getElementById('inputAddress').value;
+    var country = document.getElementById('country').value;
+    var state = document.getElementById('state').value;
+    var city = document.getElementById('city').value;
+    var pin = document.getElementById('pin').value;
+    // var file = document.getElementById('file').value;
+    var qualifications = document.getElementById('qualifications').value;
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    var date = document.getElementById('inputdate4').value;
+    var inputdate4 = formatchange(date);
+    function formatchange(dob){
+        const array=dob.split("-"); 
+        let day=array[0];
+        let month=array[1];
+        let year=array[2];  
+    
+        let dateformat=day + "-" + month + "-" + year;
+        return dateformat;
+    }
+         
+       fetch("http://localhost:5001/api/employees",{
+        method:'POST',
+        headers:{
+            'content-type':'application/json'
+        },
+        body:JSON.stringify({
+        
+            salutation:salutation,
+            firstName:firstName,
+            lastName:secondName,
+            email:email,
+            phone:telephone,
+            dob:inputdate4,
+            gender:Gender,
+            adress: inputAdress,
+            country:country,
+            state:state,
+            city:city,
+            pin:pin,
+            qualifications:qualifications,
+            username:username,
+            password:password,
+            // image:file.filename
+         }
+        )
+       })
+       .then(res=>res.json())
+       .then((employ)=>{console.log(employ)
+        ref();
+      })
+      
+    
+       .catch(error => {
+        console.error('Error:', error);})
+    })
+    } 
   
  
   
-function viewPage(id){
-    window.location.href = `http://127.0.0.1:5500/show.html?id=${id}`;
-   
-}
+
 //===========edit user ===============================================================
 
 function editDetails(id){
@@ -188,8 +179,10 @@ function editDetails(id){
     document.getElementsByName("flexRadioDefault").value = employ.gender;
     document.getElementById("edit-adress").value = employ.adress;  
     document.getElementById("edit-pin").value = employ.pin;  
-    document.getElementById("edit-username").value = employ.pin;  
-    document.getElementById("edit-password").value = employ.pin;  
+    document.getElementById("edit-username").value = employ.username;  
+    document.getElementById("edit-password").value = employ.password;  
+    // document.getElementById("change").value = employ.image;  
+
 })
 const formUpdation = document.getElementById('edit-form');
 formUpdation.addEventListener('submit',(e)=>{
@@ -203,7 +196,7 @@ formUpdation.addEventListener('submit',(e)=>{
         lastName:document.getElementById('edit-second').value, 
         email:document.getElementById('edit-email').value, 
         phone:document.getElementById('edit-phone').value, 
-        dob:formattedDate,
+        dob:document.getElementById('edit-date').value,  
         gender:document.getElementsByName('flexRadioDefault').value, 
         adress :document.getElementById('edit-adress').value, 
         country:document.getElementById('edit-country').value, 
@@ -212,7 +205,9 @@ formUpdation.addEventListener('submit',(e)=>{
         qualifications:document.getElementById('edit-quali').value,
         pin:document.getElementById('edit-pin').value,
         username:document.getElementById('edit-username').value,
-        password:document.getElementById('edit-password').value
+        password:document.getElementById('edit-password').value,
+        // image:document.getElementById('change').value
+
         
     }
    
@@ -233,3 +228,4 @@ ref();
 }
 
 // editDetails(id);
+

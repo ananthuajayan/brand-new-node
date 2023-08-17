@@ -23,6 +23,7 @@ app.use(errorHandler);
 
 app.set("view engine","ejs");
 
+app.use(express.static("uploads"));
 app.use('/css',express.static(path.resolve(__dirname,"Assets/css")));
 app.use('/img',express.static(path.resolve(__dirname,"Assets/img")));
 app.use('/js',express.static(path.resolve(__dirname,"Assets/js")));
