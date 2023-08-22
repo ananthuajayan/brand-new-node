@@ -52,7 +52,7 @@ const postemployee = asyncHandler(async (req, res) => {
                 // other employee fields
                 adress, city, country, dob, email, firstName, gender, lastName,
                 password, phone, pin, qualifications, salutation, state, username,image
-            } = req.body;
+            } = req.body; 
             console.log(adress, city, country, dob, email, firstName, gender, lastName,
                 password, phone, pin, qualifications, salutation, state, username,image)
 

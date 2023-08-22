@@ -7,7 +7,7 @@ let employee = document.getElementById('table-back');
 let count = 1;
 let output="";
 
-fetch("http://localhost:5001/api/employees")
+fetch("http://localhost:5500/api/employees")
 .then((res) => res.json())
 .then((employ) =>{ console.log(employ);
 
@@ -41,9 +41,10 @@ fetch("http://localhost:5001/api/employees")
     </tr>
     
      `
-    employee.innerHTML=output;
+   
 count++;
     })
+    employee.innerHTML=output;
 })
 }
 
@@ -59,7 +60,7 @@ async function deletion(id){
     document.getElementById('confirm-delete').style.visibility = "visible";
     var del=document.getElementById("del")
     del.addEventListener('click', ()=>{
-   const response =   fetch(`http://localhost:5001/api/employees/${id}`,{
+   const response =   fetch(`http://localhost:5500/api/employees/${id}`,{
         method:'DELETE'
 
       });
@@ -70,9 +71,24 @@ async function deletion(id){
   
     )
     }
-    //validation=============================
-    
-  
+    //function to add image
+//    let imageInput = document.querySelector("#file");
+//    imageInput.addEventListener("change",function(){
+//     let reader = new FileReader();
+   
+//    reader.onload()=function (event) {
+//     const imageUrl = event.target.result;
+//     const imgElement = document.createElement('img');
+//     imgElement.src = imageUrl;
+//     imagePreview.innerHTML = '';
+//     imagePreview.appendChild(imgElement);
+// };
+//     // reader.addEventListener("load",()=>{
+//     //     imgUpd=reader.result;
+//     //     document.querySelector(".pic-setter").style.backgroundImage = `url(${imgUpd})`
+//     // });
+//     reader.readAsDataURL(this.files[0]);
+//    });
 
 
     // add new user===============================
@@ -81,6 +97,7 @@ async function deletion(id){
     if(addUser !== null){
     addUser.addEventListener('submit',(e)=>{
         e.preventDefault();
+
     var salutation = document.getElementById('salutation').value;
     var firstName = document.getElementById('firstname').value;
     var secondName = document.getElementById('secondname').value;
@@ -98,8 +115,7 @@ async function deletion(id){
     var state = document.getElementById('state').value;
     var city = document.getElementById('city').value;
     var pin = document.getElementById('pin').value;
-    // var file = document.getElementById('file').value;
-    var qualifications = document.getElementById('qualifications').value;
+    var qualifications = document.getElementById('qualifications').value;  
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
     var date = document.getElementById('inputdate4').value;
@@ -113,8 +129,9 @@ async function deletion(id){
         let dateformat=day + "-" + month + "-" + year;
         return dateformat;
     }
+      
          
-       fetch("http://localhost:5001/api/employees",{
+       fetch("http://localhost:5500/api/employees",{
         method:'POST',
         headers:{
             'content-type':'application/json'
@@ -135,8 +152,8 @@ async function deletion(id){
             pin:pin,
             qualifications:qualifications,
             username:username,
-            password:password,
-            // image:file.filename
+            password:password
+            
          }
         )
        })
@@ -144,12 +161,16 @@ async function deletion(id){
        .then((employ)=>{console.log(employ)
         ref();
       })
-      
-    
-       .catch(error => {
+
+        .catch(error => {
         console.error('Error:', error);})
     })
     } 
+
+
+      
+    
+   
   
  
   
@@ -160,7 +181,7 @@ function editDetails(id){
     console.log(id);
  
 
-    fetch(`http://localhost:5001/api/employees/${id}`,{
+    fetch(`http://localhost:5500/api/employees/${id}`,{
         method:'get'
     })
     .then((res)=>res.json())
@@ -211,7 +232,7 @@ formUpdation.addEventListener('submit',(e)=>{
         
     }
    
-    fetch(`http://localhost:5001/api/employees/${id}`,{
+    fetch(`http://localhost:5500/api/employees/${id}`,{
         method:"PUT",
         headers:{
             "content-type":"application/json",
@@ -226,6 +247,6 @@ ref();
 
 })
 }
+//==================================================================================
 
-// editDetails(id);
 
