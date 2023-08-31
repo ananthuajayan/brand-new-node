@@ -18,7 +18,7 @@
     </head>
 <body>
     <div class="container">
-        <form class="row">
+        <form id="row" method="post" action="api/users/login" >
             <div class="col-md-offset-5 col-md-4 text-center">
                 <h1 class='text-white'>Login Form</h1>
                   <div class="form-login"></br>
@@ -29,12 +29,8 @@
                     <input type="password" name="password" id="userPassword" class="form-control input-sm chat-input" placeholder="password"/>
                     </br></br>
                     <div class="wrapper">
-                            <span class="group-btn">
-                                <a href="/main" class="btn btn-danger btn-md">login <i class="fa fa-sign-in"></i></a>
-                            </span>
-                            <span class="group-btn">
-                                <a href="/register" class="btn btn-danger btn-md">Register</a>
-                            </span>
+                        <button class="btn btn-danger btn-md">Log-In</button>
+                        <button class="btn btn-danger btn-md"><a href="/register">Register</a></button>
                     </div>
                 </div>
             </div>
@@ -42,10 +38,9 @@
         </br></br></br>
         </div>
        
+        
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-<!-- <script src="../server.js"></script> -->
-<script src="/js/view.js"></script>
 </body>
 </html>

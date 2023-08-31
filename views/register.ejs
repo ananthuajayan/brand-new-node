@@ -14,17 +14,12 @@
     <title>Employee Registration Form</title>
 </head>
 <body>
-    <form method="post" class="register-form" id="registration-form">
-        <div class="row">
-            <div class="col-md-4 col-sm-4 col-lg-4">
-                <label for="firstName">NAME</label>
-                <input name="firstName" id="username" class="form-control" type="text">
-            </div>
-        </div>
+    <form method="post" action="api/users/register" class="register-form" id="registration-form" >
+       
         <div class="row">
             <div class="col-md-4 col-sm-4 col-lg-4">
                 <label for="email">EMAIL</label>
-                <input name="email" id="useremail" class="form-control" type="email">
+                <input name="email" id="useremail" class="form-control" type="email" required>
             </div>
         </div>
         <div class="row">
@@ -38,20 +33,16 @@
             <span class="group-btn">
                 <!-- Updated the href attribute to "#" -->
                 
-              <a href="#"><button class="btn btn-danger btn-md" type="submit">
-                    Register
-                </button></a>  
+              <a href=""><button class="btn btn-danger btn-md" type="submit"> Register </button></a>  
             </span>
             <span class="group-btn">
                 <a href="/" class="btn btn-danger btn-md">Log-in</a>
             </span>
         </div>
     </form>
+    <div id="zero" style="height: 100px; width: 100px; margin: auto; visibility: hidden;">user already registered</div>
 
-    <!-- Removed the external JavaScript references for Popper.js and Bootstrap -->
-    <!-- Keep your existing scripts, including auth.js, as they are -->
 
-    <script src="/js/auth.js" >
 
     </script>
 </body>
