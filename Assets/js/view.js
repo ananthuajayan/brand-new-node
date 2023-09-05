@@ -14,11 +14,11 @@ fetch("http://localhost:5500/api/employees")
     employ.forEach(row=>{
      var id = row._id;
     output +=`
-     <tr>
+     <tr class ="pro">
     <td scope="row">${count}</th>
         <td class="zero">
             <div class="pic-setter">
-            <img src="${row.image.path}" alt="">
+            <img src="${row.image._id}">
             </div>
             ${row.salutation + " "+row.firstName + " "+row.lastName}
         </td>
@@ -43,9 +43,103 @@ fetch("http://localhost:5500/api/employees")
      `
    
 count++;
+console.log(row.image.path)
+
+
     })
     employee.innerHTML=output;
+    
+    //============================== pagination starts here ========================
+let tag = document.getElementsByClassName('pro');
+let pageNum = document.getElementById('pagination-num');
+let display = 5// it decide how many row should appear in a page.
+let flag = 1;
+let buttonCount = Math.ceil(tag.length/display)//to round up the figure.
+console.log(buttonCount);
+
+// for creating the button dynamically.
+for (let i=1; i<=buttonCount;i++){
+    let button = document.createElement('button');
+    button.innerHTML=i;
+    pageNum.appendChild(button);
+}
+
+document.getElementById('prev-button').addEventListener('click',prev);
+document.getElementById('next-button').addEventListener('click',next);
+
+document.getElementById('prev-button').setAttribute('disabled',true)
+
+function main(pageNum) {
+    let tag = document.getElementsByClassName('pro');
+    let display = 5;
+    let nextPage = display * pageNum;
+    let prevPage = display * (pageNum - 1);
+    
+    for (let i = 0; i < tag.length; i++) {
+      tag[i].style.display = "none";
+      if(i< nextPage && i>= prevPage){
+       tag[i].style.display = "table-row";
+      }
+    }
+  }
+  
+  main(1);
+
+  var buttonNumbers = pageNum.getElementsByTagName('button');
+  for(let i=0; i<buttonNumbers.length; i++){
+    buttonNumbers[i].addEventListener('click',buttonClick)
+  }
+//   buttonNumbers.classList.add('active');
+  function buttonClick(){
+    if(this.innerHTML==buttonCount){
+       document.getElementById('next-button').setAttribute('disabled',true);
+       document.getElementById('prev-button').removeAttribute('disabled');
+    }
+    else if(this.innerHTML==1){
+        document.getElementById('next-button').removeAttribute('disabled');
+        document.getElementById('prev-button').setAttribute('disabled',true);
+     }
+     else{
+        document.getElementById('next-button').removeAttribute('disabled');
+        document.getElementById('prev-button').removeAttribute('disabled');
+     }
+     flag = this.innerHTML;
+     main(flag);
+  }
+
+  function prev(){
+    console.log(flag)
+  document.getElementById('next-button').removeAttribute('disabled');
+  if(flag !==1){
+    flag --;
+  }
+  if(count === 1){
+    document.getElementById('prev-button').setAttribute('disabled',true);
+  }
+  main(flag);
+  }
+
+
+  function next(){
+    console.log(flag)
+    document.getElementById('prev-button').removeAttribute('disabled');
+    if(flag !== buttonCount){
+        flag++
+        
+    }
+    if(flag==buttonCount){
+        document.getElementById('next-button').setAttribute('disabled',true);
+    }
+    
+    main(flag);
+  }
+  
+
+
+//============================== pagination ends here ==========================
 })
+
+
 }
 
 
@@ -91,7 +185,7 @@ async function deletion(id){
 //    });
 
 
-    // add new user===============================
+   // add new user===============================
 
     const addUser = document.getElementById('modal');;
     if(addUser !== null){
@@ -248,5 +342,21 @@ ref();
 })
 }
 //==================================================================================
+//search bar
+function search(){
+    let input = document.getElementById('site-search').value;
+    input = input.toLowerCase();
+    let tag = document.getElementsByTagName('tr');
 
+    for(i=0;i<tag.length;i++){
+        if(!tag[i].innerHTML.toLowerCase().includes(input)){
+            tag[i].style.display = "none";
+        }
+        else{
+            tag[i].style.display = "table-row";
+        }
+    }
+}
+
+  
 

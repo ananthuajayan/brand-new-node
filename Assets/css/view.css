@@ -604,5 +604,21 @@ body{
 #gard{
     flex: 1;
 }
+.pagination-container{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: end;
+}
+.active{
+    background-color: red;
+    color:white;
+}
 
-
+#gard button{
+    padding:5px;
+    border-radius: 5px;
+}
+#gard{
+    gap:3px;
+}

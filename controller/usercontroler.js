@@ -40,16 +40,21 @@ const logUser = asyncHandler(async (req, res) => {
 
         const user = await userModel.findOne({ email });
         if (!user) {
-            return res.status(401).json({ error: "User not found" });
+            // return res.status(401).json({ error: "User not found" });
+            res.redirect('/')
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ error: "Incorrect password" });
+            // return res.status(401).json({ error: "Incorrect password" });
+            res.redirect('/')
+           
+  
         }
-
-        // If everything is okay, you can redirect the user
+        req.session.userId = user._id; // Store user ID in the session
         res.redirect('/main');
+ 
+        // res.redirect('/main');
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Server error" });

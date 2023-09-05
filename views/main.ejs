@@ -57,17 +57,11 @@
 
                   
 
-                   <div aria-label="Page navigation example" id="gard" >
-                    <ul class="pagination justify-content-end">
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">4</a></li>
-                      <li class="page-item"><a class="page-link" href="#">5</a></li>
-                      <li class="page-item"><a class="page-link" href="#">6</a></li>
-                      <li class="page-item"><a class="page-link" href="#">7</a></li>
-
-                    </ul>
+                   <div class="pagination-container" id="gard" >
+                    <button type="button" class="pagination-button" id="prev-button">&lt</button>
+                    <div id="pagination-num"></div>
+                    <button type="button" class="pagination-button" id="next-button">&gt</button>
+                   
                 </div>
 
                 <%-include('right-footer')%> 
