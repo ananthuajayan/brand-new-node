@@ -40,23 +40,6 @@ app.use(cors());
 app.use('/api/employees',require('./routes/emproute'));
 app.use('/api/users',require('./routes/userroute'))
 
-// search bar
-// app.get('/api/search/:key', async (req, res) => {
-//   try {
-//     const regex = new RegExp(req.params.key,'i'); 
-//     const data = await Employee.find({
-//        $or: [
-//         { firstName: { $regex: regex } },
-//         { lastName: { $regex: regex } },
-//       ],
-
-//     });
-//     res.send(data);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
 
 
 

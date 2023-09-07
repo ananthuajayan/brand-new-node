@@ -1,16 +1,7 @@
 
 const mongoose = require('mongoose');
 
-const imageSchema = new mongoose.Schema({
-    fieldname: String,
-    originalname: String,
-    encoding: String,
-    mimetype: String,
-    destination: String,
-    filename: String,
-    path: String,
-    size: Number
-  });
+
 const employeeScheme = mongoose.Schema(
     {
         
@@ -75,7 +66,9 @@ const employeeScheme = mongoose.Schema(
             type:String,
             required:true
         },
-        image:imageSchema
+        image:{
+            path: String,
+        }
       
     },
     {

@@ -1,19 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Employee = require('../models/empmodels');
 const multer = require('multer');
-//image upload
-const storage = multer.diskStorage ({
-    destination:function(req,file,cb){
-        cb(null,'./uploads')
-    },
-    filename:function(req,file,cb){
-        cb(null,file.fieldname+"_"+Date.now()+"_"+file.originalname);
-    }
-})
-
-const upload=multer({
-    storage:storage
-}).single('image')
+const path = require('path');
 
 
 //to get all the contacts
@@ -36,47 +24,62 @@ if(!employee){
 });
 
 
+const storage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,"uploads")
+    },
+    filename:(req,file,cb)=>{
+        console.log(file);
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+})
 
+const upload = multer({storage:storage}).single('image')
+ 
 // to add an employee
 const postemployee = asyncHandler(async (req, res) => {
-    // Use the 'upload' middleware to process image upload
     upload(req, res, async function (err) {
-        if (err instanceof multer.MulterError) {
-            // Handle Multer errors here
-            res.status(400).json({ error: 'Image upload error' });
-        } else if (err) {
-            // Handle other errors here
-            res.status(500).json({ error: 'Server error' });
-        } else {
+
+    if(err instanceof multer.MulterError){
+
+        res.status(400).json({error:"imagae upload error"})
+    }
+    else if(err){
+        res.status(500).json({error:"server error"})
+    }
+    else{
+  
             const {
                 // other employee fields
                 adress, city, country, dob, email, firstName, gender, lastName,
-                password, phone, pin, qualifications, salutation, state, username,image
+                password, phone, pin, qualifications, salutation, state, username
             } = req.body; 
             console.log(adress, city, country, dob, email, firstName, gender, lastName,
-                password, phone, pin, qualifications, salutation, state, username,image)
+                password, phone, pin, qualifications, salutation, state, username)
 
-            // 'req.file' contains information about the uploaded image
-            const imageInfo = req.file;
-            
 
             if (!adress || !city || !country || !dob || !email || !firstName || !gender ||
                 !lastName || !password || !phone || !pin || !qualifications || !salutation ||
-                !state || !username || !imageInfo) {
+                !state || !username) {
                 res.status(400).json({ error: 'All fields are mandatory' });
+                return;
             }
+            if (!req.file) {
+                res.status(400).json({ error: 'Image file is required' });
+                return; 
+              }
 
             // Create an employee with image information
             const employee = await Employee.create({
                 adress, city, country, dob, email, firstName, gender, lastName,
-                password, phone, pin, qualifications, salutation, state, username,
-                image: imageInfo // Save image information in the employee record
+                password, phone, pin, qualifications, salutation, state, username, image:req.file
             });
 
             res.status(201).json(employee);
         }
-    });
-});
+    })
+    }
+    );
 
 
 

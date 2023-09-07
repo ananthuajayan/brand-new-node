@@ -8,11 +8,11 @@
         
   <div class="modal-body">
             
-  <form id="modal" class="add-user"  action="/api/employees" method="post" enctype="multipart/form-data">
-    <div class="col bg-white col-sm-12 col-md-12 col-lg-6 col-xl-6 ">
+    <form id="modal" class="add-user" action="/api/employees" method="post" enctype="multipart/form-data">
+          <div class="col bg-white col-sm-12 col-md-12 col-lg-6 col-xl-6 ">
       <div class="card"> 
         <div class="card-body">
-          <input class="file" id="file" type="file" name="image" >
+          <input class="file" type="file" id="file" accept="image/*" />
         </div>
         <div class="icon">
           <i class="fa-solid fa-arrow-up"></i>
@@ -83,9 +83,8 @@
           
       </div>
        </div>
-      
+     
        
-       <form class="row sec" method="post">
         
         <div class="col">
           <label for="inputAddress" class="form-label">Address <span>*</span></label>
@@ -95,7 +94,7 @@
           <label for="qualifications" class="form-label">qualification <span>*</span></label>
           <input type="text" class="form-control" id="qualifications" placeholder="Enter qualification">
         </div>
-        </form>
+        
       
         <div class="row sec">
           <div class="col">
@@ -132,7 +131,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn text-primary me-sm-2" data-bs-dismiss="modal" >Cancel</button>
-          <button type="submit" class="btn btn-primary py-3">add employee</button>
+          <button type="submit" class="btn btn-primary py-3" >add employee</button>
         </div>
       </div>
   </form>

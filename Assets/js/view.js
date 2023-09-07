@@ -10,16 +10,17 @@ let output="";
 fetch("http://localhost:5500/api/employees")
 .then((res) => res.json())
 .then((employ) =>{ console.log(employ);
-
+// const path = image.path
     employ.forEach(row=>{
      var id = row._id;
     output +=`
      <tr class ="pro">
     <td scope="row">${count}</th>
         <td class="zero">
-            <div class="pic-setter">
-            <img src="${row.image._id}">
-            </div>
+        <div class="pic-setter">
+        <img src="${row.image && row.image.path ? row.image.path : 'path_to_default_image'}" alt="">
+    </div>
+    
             ${row.salutation + " "+row.firstName + " "+row.lastName}
         </td>
     <td>${row.email}</td>
@@ -43,98 +44,101 @@ fetch("http://localhost:5500/api/employees")
      `
    
 count++;
-console.log(row.image.path)
+
+
 
 
     })
     employee.innerHTML=output;
     
     //============================== pagination starts here ========================
-let tag = document.getElementsByClassName('pro');
-let pageNum = document.getElementById('pagination-num');
-let display = 5// it decide how many row should appear in a page.
-let flag = 1;
-let buttonCount = Math.ceil(tag.length/display)//to round up the figure.
-console.log(buttonCount);
-
-// for creating the button dynamically.
-for (let i=1; i<=buttonCount;i++){
-    let button = document.createElement('button');
-    button.innerHTML=i;
-    pageNum.appendChild(button);
-}
-
-document.getElementById('prev-button').addEventListener('click',prev);
-document.getElementById('next-button').addEventListener('click',next);
-
-document.getElementById('prev-button').setAttribute('disabled',true)
-
-function main(pageNum) {
     let tag = document.getElementsByClassName('pro');
-    let display = 5;
-    let nextPage = display * pageNum;
-    let prevPage = display * (pageNum - 1);
+    let pageNum = document.getElementById('pagination-num');
+    let display = 5// it decide how many row should appear in a page.
+    let flag = 1;
+    let buttonCount = Math.ceil(tag.length/display)//to round up the figure.
+    console.log(buttonCount);
+
+pageNum.innerHTML="";
     
-    for (let i = 0; i < tag.length; i++) {
-      tag[i].style.display = "none";
-      if(i< nextPage && i>= prevPage){
-       tag[i].style.display = "table-row";
-      }
+    // for creating the button dynamically.
+    for (let i=1; i<=buttonCount;i++){
+        let button = document.createElement('button');
+        button.innerHTML=i;
+        pageNum.appendChild(button);
     }
-  }
-  
-  main(1);
-
-  var buttonNumbers = pageNum.getElementsByTagName('button');
-  for(let i=0; i<buttonNumbers.length; i++){
-    buttonNumbers[i].addEventListener('click',buttonClick)
-  }
-//   buttonNumbers.classList.add('active');
-  function buttonClick(){
-    if(this.innerHTML==buttonCount){
-       document.getElementById('next-button').setAttribute('disabled',true);
-       document.getElementById('prev-button').removeAttribute('disabled');
-    }
-    else if(this.innerHTML==1){
-        document.getElementById('next-button').removeAttribute('disabled');
-        document.getElementById('prev-button').setAttribute('disabled',true);
-     }
-     else{
-        document.getElementById('next-button').removeAttribute('disabled');
-        document.getElementById('prev-button').removeAttribute('disabled');
-     }
-     flag = this.innerHTML;
-     main(flag);
-  }
-
-  function prev(){
-    console.log(flag)
-  document.getElementById('next-button').removeAttribute('disabled');
-  if(flag !==1){
-    flag --;
-  }
-  if(count === 1){
-    document.getElementById('prev-button').setAttribute('disabled',true);
-  }
-  main(flag);
-  }
-
-
-  function next(){
-    console.log(flag)
-    document.getElementById('prev-button').removeAttribute('disabled');
-    if(flag !== buttonCount){
-        flag++
+    
+    document.getElementById('prev-button').addEventListener('click',prev);
+    document.getElementById('next-button').addEventListener('click',next);
+    
+    document.getElementById('prev-button').setAttribute('disabled',true)
+    
+    function main(pageNum) {
+        let tag = document.getElementsByClassName('pro');
+        let display = 5;
+        let nextPage = display * pageNum;
+        let prevPage = display * (pageNum - 1);
         
-    }
-    if(flag==buttonCount){
-        document.getElementById('next-button').setAttribute('disabled',true);
-    }
+        for (let i = 0; i < tag.length; i++) {
+          tag[i].style.display = "none";
+          if(i< nextPage && i>= prevPage){
+           tag[i].style.display = "table-row";
+          }
+        }
+      }
+      
+      main(1);
     
-    main(flag);
-  }
-  
-
+      var buttonNumbers = pageNum.getElementsByTagName('button');
+      for(let i=0; i<buttonNumbers.length; i++){
+        buttonNumbers[i].addEventListener('click',buttonClick)
+      }
+    //   buttonNumbers.classList.add('active');
+      function buttonClick(){
+        if(this.innerHTML==buttonCount){
+           document.getElementById('next-button').setAttribute('disabled',true);
+           document.getElementById('prev-button').removeAttribute('disabled');
+        }
+        else if(this.innerHTML==1){
+            document.getElementById('next-button').removeAttribute('disabled');
+            document.getElementById('prev-button').setAttribute('disabled',true);
+         }
+         else{
+            document.getElementById('next-button').removeAttribute('disabled');
+            document.getElementById('prev-button').removeAttribute('disabled');
+         }
+         flag = this.innerHTML;
+         main(flag);
+      }
+    
+      function prev(){
+        console.log(flag)
+      document.getElementById('next-button').removeAttribute('disabled');
+      if(flag !==1){
+        flag --;
+      }
+      if(flag === 1){
+        document.getElementById('prev-button').setAttribute('disabled',true);
+      }
+      main(flag);
+      }
+    
+    
+      function next(){
+        console.log(flag)
+        document.getElementById('prev-button').removeAttribute('disabled');
+        if(flag !== buttonCount){
+            flag++
+            
+        }
+        if(flag==buttonCount){
+            document.getElementById('next-button').setAttribute('disabled',true);
+        }
+        
+        main(flag);
+      }
+      
+    
 
 //============================== pagination ends here ==========================
 })
@@ -154,7 +158,7 @@ async function deletion(id){
     document.getElementById('confirm-delete').style.visibility = "visible";
     var del=document.getElementById("del")
     del.addEventListener('click', ()=>{
-   const response =   fetch(`http://localhost:5500/api/employees/${id}`,{
+    fetch(`http://localhost:5500/api/employees/${id}`,{
         method:'DELETE'
 
       });
@@ -165,24 +169,6 @@ async function deletion(id){
   
     )
     }
-    //function to add image
-//    let imageInput = document.querySelector("#file");
-//    imageInput.addEventListener("change",function(){
-//     let reader = new FileReader();
-   
-//    reader.onload()=function (event) {
-//     const imageUrl = event.target.result;
-//     const imgElement = document.createElement('img');
-//     imgElement.src = imageUrl;
-//     imagePreview.innerHTML = '';
-//     imagePreview.appendChild(imgElement);
-// };
-//     // reader.addEventListener("load",()=>{
-//     //     imgUpd=reader.result;
-//     //     document.querySelector(".pic-setter").style.backgroundImage = `url(${imgUpd})`
-//     // });
-//     reader.readAsDataURL(this.files[0]);
-//    });
 
 
    // add new user===============================
@@ -191,6 +177,7 @@ async function deletion(id){
     if(addUser !== null){
     addUser.addEventListener('submit',(e)=>{
         e.preventDefault();
+       
 
     var salutation = document.getElementById('salutation').value;
     var firstName = document.getElementById('firstname').value;
@@ -204,6 +191,8 @@ async function deletion(id){
        var Gender = Gender[i].value;
     }
     }
+    // var image = document.getElementById('file').value;
+    // console.log(image )
     var inputAdress = document.getElementById('inputAddress').value;
     var country = document.getElementById('country').value;
     var state = document.getElementById('state').value;
@@ -223,33 +212,41 @@ async function deletion(id){
         let dateformat=day + "-" + month + "-" + year;
         return dateformat;
     }
+    var imageInput = document.getElementById('file');
+        var imageFile = imageInput.files[0];
+
+        // Check if an image is selected
+        if (!imageFile) {
+            alert('Please select an image to upload.');
+            return;
+        }
+        var formData = new FormData();
+        formData.append('image', imageFile);
+ 
+formData.append('salutation', salutation);
+formData.append('firstName', firstName);
+formData.append('lastName', secondName);
+formData.append('email', email);
+formData.append('phone', telephone);
+formData.append('gender', Gender); // Use the 'gender' variable you defined
+formData.append('adress', inputAdress);
+formData.append('country', country);
+formData.append('state', state);
+formData.append('city', city);
+formData.append('pin', pin);
+formData.append('qualifications', qualifications);
+formData.append('username', username);
+formData.append('password', password);
+formData.append('dob', inputdate4);
       
          
        fetch("http://localhost:5500/api/employees",{
         method:'POST',
         headers:{
-            'content-type':'application/json'
+            // 'content-type':'application/json'
         },
-        body:JSON.stringify({
         
-            salutation:salutation,
-            firstName:firstName,
-            lastName:secondName,
-            email:email,
-            phone:telephone,
-            dob:inputdate4,
-            gender:Gender,
-            adress: inputAdress,
-            country:country,
-            state:state,
-            city:city,
-            pin:pin,
-            qualifications:qualifications,
-            username:username,
-            password:password
-            
-         }
-        )
+        body:formData
        })
        .then(res=>res.json())
        .then((employ)=>{console.log(employ)
@@ -259,15 +256,12 @@ async function deletion(id){
         .catch(error => {
         console.error('Error:', error);})
     })
-    } 
-
-
-      
+    }
     
-   
+
+     
   
- 
-  
+
 
 //===========edit user ===============================================================
 
