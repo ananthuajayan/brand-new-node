@@ -1,6 +1,13 @@
-function remove(){
+
+
+function remove(){ 
     document.getElementById("confirm-delete").style.visibility = "hidden";
   }
+
+  function viewPage(id){
+    window.location.href = `http://127.0.0.1:5500/show.html?id=${id}`;
+   
+}
  
  function ref(){
 let employee = document.getElementById('table-back');
@@ -9,7 +16,7 @@ let output="";
 
 fetch("http://localhost:5500/api/employees")
 .then((res) => res.json())
-.then((employ) =>{ console.log(employ);
+.then((employ) =>{ console.log(employ); 
 // const path = image.path
     employ.forEach(row=>{
      var id = row._id;
@@ -18,7 +25,7 @@ fetch("http://localhost:5500/api/employees")
     <td scope="row">${count}</th>
         <td class="zero">
         <div class="pic-setter">
-        <img src="${row.image && row.image.path ? row.image.path : 'path_to_default_image'}" alt="">
+        <img src="${row.image && row.image.path}" alt="">
     </div>
     
             ${row.salutation + " "+row.firstName + " "+row.lastName}
@@ -52,9 +59,9 @@ count++;
     employee.innerHTML=output;
     
     //============================== pagination starts here ========================
-    let tag = document.getElementsByClassName('pro');
+    let tag = document.getElementsByClassName('pro'); 
     let pageNum = document.getElementById('pagination-num');
-    let display = 5// it decide how many row should appear in a page.
+    let display = 4// it decide how many row should appear in a page.
     let flag = 1;
     let buttonCount = Math.ceil(tag.length/display)//to round up the figure.
     console.log(buttonCount);
@@ -75,7 +82,7 @@ pageNum.innerHTML="";
     
     function main(pageNum) {
         let tag = document.getElementsByClassName('pro');
-        let display = 5;
+        let display = 4;
         let nextPage = display * pageNum;
         let prevPage = display * (pageNum - 1);
         
@@ -147,12 +154,6 @@ pageNum.innerHTML="";
 }
 
 
-function viewPage(id){
-    window.location.href = `http://127.0.0.1:5500/show.html?id=${id}`;
-   
-}
-
-
 ref();
 async function deletion(id){  
     document.getElementById('confirm-delete').style.visibility = "visible";
@@ -173,7 +174,9 @@ async function deletion(id){
 
    // add new user===============================
 
-    const addUser = document.getElementById('modal');;
+    const addUser = document.getElementById('modal');
+
+     
     if(addUser !== null){
     addUser.addEventListener('submit',(e)=>{
         e.preventDefault();
@@ -215,7 +218,6 @@ async function deletion(id){
     var imageInput = document.getElementById('file');
         var imageFile = imageInput.files[0];
 
-        // Check if an image is selected
         if (!imageFile) {
             alert('Please select an image to upload.');
             return;
@@ -290,7 +292,7 @@ function editDetails(id){
     document.getElementById("edit-pin").value = employ.pin;  
     document.getElementById("edit-username").value = employ.username;  
     document.getElementById("edit-password").value = employ.password;  
-    // document.getElementById("change").value = employ.image;  
+    document.getElementById("change").value = employ.image;  
 
 })
 const formUpdation = document.getElementById('edit-form');
@@ -315,7 +317,7 @@ formUpdation.addEventListener('submit',(e)=>{
         pin:document.getElementById('edit-pin').value,
         username:document.getElementById('edit-username').value,
         password:document.getElementById('edit-password').value,
-        // image:document.getElementById('change').value
+         image:document.getElementById('change').value
 
         
     }

@@ -534,11 +534,14 @@ body{
 .employee-img{
     width: 119px;
     height: 119px;
-    border-radius: 30px;
+    border-radius: 30px !important;
     position: absolute;
     padding: 10px;
     bottom: -35px;
     left: calc(50% - 51px);
+}
+.employee-img img{
+    border-radius: 48px;
 }
 .sub-deletion-form{
     position: relative;

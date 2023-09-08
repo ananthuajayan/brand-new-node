@@ -36,7 +36,7 @@ function isAuthenticated(req, res, next) {
 
 
 app.use(express.json());
-app.use(cors());
+app.use(cors()); 
 app.use('/api/employees',require('./routes/emproute'));
 app.use('/api/users',require('./routes/userroute'))
 
@@ -67,6 +67,10 @@ app.get('/', (req,res) => {
 app.get('/main', isAuthenticated, (req,res) => {
     res.render('main'); 
   })
+
+  // app.get('/viewpage',(req,res)=>{
+  //   res.render('view');
+  // })
 
 app.listen(port,()=>{
     console.log(`server running on port ${port}`)
