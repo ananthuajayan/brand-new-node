@@ -82,10 +82,6 @@ const postemployee = asyncHandler(async (req, res) => {
     })
     }
     );
-
-
-
-
 // to update an employee
 const updemployee = asyncHandler(async(req,res)=>{
     const employee = await Employee.findById(req.params.id);
@@ -96,8 +92,6 @@ const updemployee = asyncHandler(async(req,res)=>{
     const updemployee = await Employee.findByIdAndUpdate(req.params.id,req.body,{new:true});
     res.status(200).json(updemployee);
 });
-
-
 
 // to delete an employee
 const delemployee = asyncHandler(async(req,res)=>{

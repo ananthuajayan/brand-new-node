@@ -11,11 +11,12 @@ const bodyParser = require('body-parser')
 const Employee = require('./models/empmodels');
 
 
+
 dbConnect();
 const app = express(); 
 // app.use(express.urlencoded({extended:false})); 
 app.use(bodyParser.urlencoded({extended:true}));
-const port = process.env.PORT || 5000; 
+const port = process.env.PORT || 5500; 
 
 app.use(
   session({
@@ -25,15 +26,17 @@ app.use(
   })
 );
 
-function isAuthenticated(req, res, next) {
-  if (req.session && req.session.userId) {
-    return next(); 
+
+app.get('/main', (req, res) => {
+  if (req.session.userId) {
+    // User is authenticated, render the main page
+    console.log(req.session.id)
+    res.render('main');
   } else {
-    res.redirect('/main'); 
+    // User is not authenticated, redirect to the login page
+    res.redirect('/login');
   }
-}
-
-
+});
 
 app.use(express.json());
 app.use(cors()); 
@@ -52,7 +55,8 @@ app.use('/css',express.static(path.resolve(__dirname,"Assets/css")));
 app.use('/img',express.static(path.resolve(__dirname,"Assets/img")));
 app.use('/js',express.static(path.resolve(__dirname,"Assets/js")));
 app.use('/uploads',express.static(path.resolve(__dirname,"uploads")));
-
+app.set('views', path.join(__dirname, 'views'));
+ 
 
 
 
@@ -63,14 +67,21 @@ app.get('/register', (req,res) => {
 app.get('/', (req,res) => {
   res.render('login'); 
 })
+app.get('/login', (req,res) => {
+  res.render('login'); 
+})
 
-app.get('/main', isAuthenticated, (req,res) => {
-    res.render('main'); 
-  })
-
-  // app.get('/viewpage',(req,res)=>{
-  //   res.render('view');
-  // })
+  app.get('/logout', (req, res) => {
+    // req.logout();
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+      }
+      res.redirect('/');
+    
+    });
+  });
+  
 
 app.listen(port,()=>{
     console.log(`server running on port ${port}`)

@@ -52,7 +52,7 @@ fetch("http://localhost:5500/api/employees")
    
 count++;
 
-
+ 
 
 
     })
@@ -103,10 +103,12 @@ pageNum.innerHTML="";
     //   buttonNumbers.classList.add('active');
       function buttonClick(){
         if(this.innerHTML==buttonCount){
+            console.log(this.innerHTML)
            document.getElementById('next-button').setAttribute('disabled',true);
            document.getElementById('prev-button').removeAttribute('disabled');
         }
         else if(this.innerHTML==1){
+            console.log(this.innerHTML)
             document.getElementById('next-button').removeAttribute('disabled');
             document.getElementById('prev-button').setAttribute('disabled',true);
          }
@@ -216,6 +218,8 @@ async function deletion(id){
         return dateformat;
     }
     var imageInput = document.getElementById('file');
+    console.log(imageInput.value);
+
         var imageFile = imageInput.files[0];
 
         if (!imageFile) {
@@ -292,7 +296,11 @@ function editDetails(id){
     document.getElementById("edit-pin").value = employ.pin;  
     document.getElementById("edit-username").value = employ.username;  
     document.getElementById("edit-password").value = employ.password;  
-    document.getElementById("change").value = employ.image;  
+   const imageView = document.getElementById("img-edit"); 
+   imageView.src = '';
+   imageView.src = employ.image.path;
+   
+    console.log(employ.image.path);
 
 })
 const formUpdation = document.getElementById('edit-form');
@@ -321,8 +329,7 @@ formUpdation.addEventListener('submit',(e)=>{
 
         
     }
-   
-    fetch(`http://localhost:5500/api/employees/${id}`,{
+     fetch(`http://localhost:5500/api/employees/${id}`,{
         method:"PUT",
         headers:{
             "content-type":"application/json",
@@ -353,6 +360,8 @@ function search(){
         }
     }
 }
+ 
+
 
   
 
