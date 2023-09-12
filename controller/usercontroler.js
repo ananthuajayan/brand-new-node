@@ -3,10 +3,12 @@ const userModel = require('../models/usermodels');
 const bcrypt = require('bcrypt');
 // const mongoose = require('mongoose');
 
+
 const regUser = asyncHandler(async(req,res)=>{
     const {email,password}=req.body;
     if(!email||!password){
-        res.status(400)
+        res.status(400) 
+        
         throw new Error("all fields are mandatory");
     }
     const userAvailable = await userModel.findOne({email});

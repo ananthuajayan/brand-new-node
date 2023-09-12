@@ -64,7 +64,7 @@ count++;
     let display = 4// it decide how many row should appear in a page.
     let flag = 1;
     let buttonCount = Math.ceil(tag.length/display)//to round up the figure.
-    console.log(buttonCount);
+    // console.log(buttonCount);
 
 pageNum.innerHTML="";
     
@@ -103,7 +103,7 @@ pageNum.innerHTML="";
     //   buttonNumbers.classList.add('active');
       function buttonClick(){
         if(this.innerHTML==buttonCount){
-            console.log(this.innerHTML)
+            // console.log(this.innerHTML)
            document.getElementById('next-button').setAttribute('disabled',true);
            document.getElementById('prev-button').removeAttribute('disabled');
         }
@@ -154,10 +154,130 @@ pageNum.innerHTML="";
 
 
 }
+function validate(){
+    var fName = document.getElementById("firstname").value;
+    var regfName =  (/^[A-Za-z]/);
+    if(regfName.test(fName)){
+        document.getElementById("firstname").style.border= "1px solid green";
+    }else{ 
+        document.getElementById("firstname").style.border= "1px solid red";
+        document.getElementById("firstname").focus();
+        return false;
+
+    }
+
+    var sName = document.getElementById("secondname").value;
+    var regsName =  (/^[A-Za-z]/);
+    if(regsName.test(sName)){
+        document.getElementById("secondname").style.border= "1px solid green";
+    }else{
+        document.getElementById("secondname").style.border= "1px solid red";
+        document.getElementById("secondname").focus();
+        return false;
+
+    }
+
+    var userName = document.getElementById("username").value;
+    var  regusername = /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-z]{2,20})/;
+    if(regusername.test(userName)){
+        document.getElementById("username").style.border= "1px solid green";
+    }else{
+        document.getElementById("username").style.border= "1px solid red";
+        document.getElementById("username").focus();
+        return false;
+
+    }
+    
+    var password = document.getElementById("password").value;
+    if(password==""){
+        document.getElementById("password").style.border= "1px solid red";
+        document.getElementById("password").focus();
+        return false;
+    }else{
+        document.getElementById("password").style.border= "1px solid green";
+        
+    }
+
+    var email = document.getElementById("inputEmail4").value;
+    var regemail = /^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-z]{2,20})$/;
+    if(regemail.test(email)){
+        document.getElementById("inputEmail4").style.border= "1px solid green";
+    }else{
+        document.getElementById("inputEmail4").style.border= "1px solid red";
+        document.getElementById("inputEmail4").focus();
+        return false;
+
+    }
+
+    var phone = document.getElementById("inputtel4").value;
+    var regphone = /^[7-9][0-9]{9}$/;
+    if(regphone.test(phone)){
+        document.getElementById("inputtel4").style.border= "1px solid green";
+    }else{
+        document.getElementById("inputtel4").style.border= "1px solid red";
+        document.getElementById("inputtel4").focus();
+        return false;
+
+    }
+
+    var date = document.getElementById("inputdate4").value;
+    if(date==""){
+        document.getElementById("inputdate4").style.border= "1px solid red";
+        document.getElementById("inputdate4").focus();
+        return false;
+    }else{
+        document.getElementById("inputdate4").style.border= "1px solid green";
+        
+    }
+
+    var Address = document.getElementById("inputAddress").value;
+    var regaddress = (/^[A-Za-z0-9]/);
+    if(regaddress.test(Address)){
+        document.getElementById("inputAddress").style.border= "1px solid green";
+    }else{
+        document.getElementById("inputAddress").style.border= "1px solid red";
+        document.getElementById("inputAddress").focus();
+        return false;
+
+    }
+
+    var qualifications = document.getElementById("qualifications").value;
+    var regqulification = (/^[A-Za-z0-9]/);
+    if(regqulification.test(qualifications)){
+        document.getElementById("qualifications").style.border= "1px solid green";
+    }else{
+        document.getElementById("qualifications").style.border= "1px solid red";
+        document.getElementById("qualifications").focus();
+        return false;
+
+    }
+
+    var city = document.getElementById("city").value;
+    var regcity =  (/^[A-Za-z]/);
+    if(regcity.test(city)){
+        document.getElementById("city").style.border= "1px solid green";
+        
+    }else{
+        document.getElementById("city").style.border= "1px solid red";
+        document.getElementById("city").focus();
+        return false;
+    }
+
+    var pin = document.getElementById("pin").value;
+    if(pin==""){
+        document.getElementById("pin").style.border= "1px solid red";
+        document.getElementById("pin").focus();
+        return false;
+    }else{
+        document.getElementById("pin").style.border= "1px solid green";
+        
+    }
+    // refreash();
+}
 
 
 ref();
-async function deletion(id){  
+function deletion(id){  
     document.getElementById('confirm-delete').style.visibility = "visible";
     var del=document.getElementById("del")
     del.addEventListener('click', ()=>{
@@ -165,9 +285,9 @@ async function deletion(id){
         method:'DELETE'
 
       });
-   
-      ref();
       document.getElementById('confirm-delete').style.visibility = "hidden";
+
+      ref();
     }
   
     )
@@ -287,6 +407,7 @@ function editDetails(id){
     document.getElementById("edit-email").value = employ.email;
     document.getElementById("edit-phone").value = employ.phone;
     document.getElementById("edit-date").value = employ.dob;
+    
     document.getElementById("edit-quali").value = employ.qualifications;
     document.getElementById("edit-country").value = employ.country;
     document.getElementById("edit-state").value = employ.state;
@@ -325,10 +446,12 @@ formUpdation.addEventListener('submit',(e)=>{
         pin:document.getElementById('edit-pin').value,
         username:document.getElementById('edit-username').value,
         password:document.getElementById('edit-password').value,
-         image:document.getElementById('change').value
+         image: document.getElementById("img-edit").value
+         
 
         
     }
+    
      fetch(`http://localhost:5500/api/employees/${id}`,{
         method:"PUT",
         headers:{
@@ -340,6 +463,7 @@ formUpdation.addEventListener('submit',(e)=>{
 .then((res)=>res.json())
 .then(employ => {console.log(employ);})
 ref(); 
+ 
 
 
 })
