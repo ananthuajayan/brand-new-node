@@ -59,6 +59,13 @@ const postemployee = asyncHandler(async (req, res) => {
             console.log(adress, city, country, dob, email, firstName, gender, lastName,
                 password, phone, pin, qualifications, salutation, state, username)
 
+                const dobFormatted = new Date(dob).toLocaleDateString('en-US', {
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit',
+                });
+                
+
 
             if (!adress || !city || !country || !dob || !email || !firstName || !gender ||
                 !lastName || !password || !phone || !pin || !qualifications || !salutation ||
@@ -73,7 +80,7 @@ const postemployee = asyncHandler(async (req, res) => {
 
             // Create an employee with image information
             const employee = await Employee.create({
-                adress, city, country, dob, email, firstName, gender, lastName,
+                adress, city, country, dob:dobFormatted, email, firstName, gender, lastName,
                 password, phone, pin, qualifications, salutation, state, username, image:req.file
             });
 

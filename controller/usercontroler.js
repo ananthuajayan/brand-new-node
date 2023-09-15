@@ -29,7 +29,7 @@ const regUser = asyncHandler(async(req,res)=>{
         res.status(400);
         throw new Error("user data not valid");
     }
-    res.json({message :"register the user"})
+    res.json({message :"register the user"}) 
 });
 
 //============================================================= 

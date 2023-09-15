@@ -575,6 +575,18 @@ body{
     /* width: 19.13px; */
     height:37.2px;
 }
+#img-view{
+    border:1px dashed rebeccapurple;
+    background-color: lightgrey;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#img-view i{
+    font-size: 100px;
+}
+
 
 .form-coloumn h5{
     font-size: 16px;

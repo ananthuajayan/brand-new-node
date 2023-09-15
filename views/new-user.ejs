@@ -10,16 +10,25 @@
             
     <form id="modal" class="add-user" action="/api/employees" method="post" enctype="multipart/form-data" onsubmit="return validate()">
           <div class="col bg-white col-sm-12 col-md-12 col-lg-6 col-xl-6 ">
-      <div class="card"> 
-        <div class="card-body">
-          <input class="file" type="file" id="file" accept="image/*" />
-        </div>
-        <div class="icon">
-          <i class="fa-solid fa-arrow-up"></i>
-         <h2>Upload Image</h2>
-          <h1>PNG, JPG files are allowed</h1>
-        </div> 
-      </div>
+            <div class="row sec" >
+              <div class="card col-6" id="img-border"> 
+                <div class="card-body">
+                  <input class="file" type="file" id="file" accept="image/*" />
+                </div>
+                <div class="icon">
+                  <i class="fa-solid fa-arrow-up"></i>
+                 <h2>Upload Image</h2>
+                  <h1>PNG, JPG files are allowed</h1>
+                </div> 
+              </div>
+              <div id="img-view" class="col-2">
+                <i class="fa fa-sharp fa-light fa-user"></i>
+             </div>
+              
+            </div>
+          
+      
+      <div id="add-img" style="color: red; text-align: center; visibility: hidden;" >Kindly add an image</div>
 
      
       <div class="row sec">

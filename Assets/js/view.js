@@ -5,7 +5,7 @@ function remove(){
   }
 
   function viewPage(id){
-    window.location.href = `http://127.0.0.1:5500/show.html?id=${id}`;
+    window.location.href = `http://127.0.0.1:5500/show.html?id=${id}`; 
    
 }
  
@@ -18,8 +18,9 @@ fetch("http://localhost:5500/api/employees")
 .then((res) => res.json())
 .then((employ) =>{ console.log(employ); 
 // const path = image.path
-    employ.forEach(row=>{
+    employ.forEach( row=>{
      var id = row._id;
+     var date = new Date(row.dob);
     output +=`
      <tr class ="pro">
     <td scope="row">${count}</th>
@@ -33,7 +34,7 @@ fetch("http://localhost:5500/api/employees")
     <td>${row.email}</td>
     <td>${row.phone}</td>
     <td>${row.gender}</td>
-    <td>${row.dob}</td>
+    <td>${date.toISOString().split('T')[0]}</td>
     <td>${row.country}</td>
     
     <td class="dropdown" class= dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,6 +61,7 @@ count++;
     
     //============================== pagination starts here ========================
     let tag = document.getElementsByClassName('pro'); 
+    console.log(tag.length);
     let pageNum = document.getElementById('pagination-num');
     let display = 4// it decide how many row should appear in a page.
     let flag = 1;
@@ -96,6 +98,7 @@ pageNum.innerHTML="";
       
       main(1);
     
+          
       var buttonNumbers = pageNum.getElementsByTagName('button');
       for(let i=0; i<buttonNumbers.length; i++){
         buttonNumbers[i].addEventListener('click',buttonClick)
@@ -327,24 +330,40 @@ function deletion(id){
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
     var date = document.getElementById('inputdate4').value;
-    var inputdate4 = formatchange(date);
-    function formatchange(dob){
-        const array=dob.split("-"); 
-        let day=array[0];
-        let month=array[1];
-        let year=array[2];  
+
+
+    var changedate = new Date(date);
+    var formateddate = changedate.toISOString().split('T')[0]
+    console.log(formateddate);
+    // var inputdate4 = formatchange(date);
+    // function formatchange(dob){
+    //     const array=dob.split("-"); 
+    //     let day=array[0];
+    //     let month=array[1];
+    //     let year=array[2];  
     
-        let dateformat=day + "-" + month + "-" + year;
-        return dateformat;
-    }
+    //     let dateformat=day + "-" + month + "-" + year;
+    //     return dateformat;
+    // }
     var imageInput = document.getElementById('file');
     console.log(imageInput.value);
 
         var imageFile = imageInput.files[0];
 
         if (!imageFile) {
-            alert('Please select an image to upload.');
+            // alert('Please select an image to upload.');
+            document.getElementById('add-img').style.visibility="visible";
+            document.getElementById('img-border').style.border="2px dashed red";
+            // document.getElementById('add-img') = "focused"
             return;
+        }
+        
+        if (imageFile) {
+            // alert('Please select an image to upload.');
+            document.getElementById('add-img').style.visibility="hidden";
+            document.getElementById('img-border').style.border="2px dashed ";
+
+            // return;
         }
         var formData = new FormData();
         formData.append('image', imageFile);
@@ -363,7 +382,7 @@ formData.append('pin', pin);
 formData.append('qualifications', qualifications);
 formData.append('username', username);
 formData.append('password', password);
-formData.append('dob', inputdate4);
+formData.append('dob', formateddate);
       
          
        fetch("http://localhost:5500/api/employees",{
@@ -397,8 +416,10 @@ function editDetails(id){
 
     fetch(`http://localhost:5500/api/employees/${id}`,{
         method:'get'
-    })
+    })  
+    
     .then((res)=>res.json())
+
     .then((employ)=>{console.log(employ)
         
     document.getElementById("edit-salu").value = employ.salutation;
@@ -406,17 +427,27 @@ function editDetails(id){
     document.getElementById("edit-second").value = employ.lastName;
     document.getElementById("edit-email").value = employ.email;
     document.getElementById("edit-phone").value = employ.phone;
-    document.getElementById("edit-date").value = employ.dob;
-    
+    var changedateEdit = new Date(employ.dob);
+    var formateddate = changedateEdit.toISOString().split('T')[0]
+    console.log(formateddate);
+    document.getElementById("edit-date").value = formateddate;
     document.getElementById("edit-quali").value = employ.qualifications;
     document.getElementById("edit-country").value = employ.country;
     document.getElementById("edit-state").value = employ.state;
     document.getElementById("edit-city").value = employ.city;
-    document.getElementsByName("flexRadioDefault").value = employ.gender;
+
+    var genders =  document.getElementsByName("Gender");
+    var dbgender = employ.gender;
+    for(var i=0;i<genders.length;i++){
+        if(genders[i].value == dbgender){
+            genders[i].checked = true;
+       console.log(dbgender);
+    }
+
+    }
+
     document.getElementById("edit-adress").value = employ.adress;  
     document.getElementById("edit-pin").value = employ.pin;  
-    document.getElementById("edit-username").value = employ.username;  
-    document.getElementById("edit-password").value = employ.password;  
    const imageView = document.getElementById("img-edit"); 
    imageView.src = '';
    imageView.src = employ.image.path;
@@ -428,8 +459,8 @@ const formUpdation = document.getElementById('edit-form');
 formUpdation.addEventListener('submit',(e)=>{
 
     e.preventDefault(); 
-    // console.log(formUpdation);
-    
+  
+  
     let formupd = {
         salutation:document.getElementById('edit-salu').value,
         firstName:document.getElementById('edit-first').value, 
@@ -437,21 +468,18 @@ formUpdation.addEventListener('submit',(e)=>{
         email:document.getElementById('edit-email').value, 
         phone:document.getElementById('edit-phone').value, 
         dob:document.getElementById('edit-date').value,  
-        gender:document.getElementsByName('flexRadioDefault').value, 
+        gender: document.querySelector('input[name="Gender"]:checked').value,
         adress :document.getElementById('edit-adress').value, 
         country:document.getElementById('edit-country').value, 
         city:document.getElementById('edit-city').value, 
         state:document.getElementById('edit-state').value,
         qualifications:document.getElementById('edit-quali').value,
         pin:document.getElementById('edit-pin').value,
-        username:document.getElementById('edit-username').value,
-        password:document.getElementById('edit-password').value,
-         image: document.getElementById("img-edit").value
-         
+        image:document.getElementById('img-edit').path
 
-        
     }
     
+   
      fetch(`http://localhost:5500/api/employees/${id}`,{
         method:"PUT",
         headers:{
@@ -468,6 +496,7 @@ ref();
 
 })
 }
+
 //==================================================================================
 //search bar
 function search(){
@@ -485,6 +514,39 @@ function search(){
     }
 }
  
+//============================================image input===
+const dropArea = document.querySelector(".card-body");
+const inputFile = document.getElementById('file');
+let imgView = document.getElementById('img-view');
+inputFile.addEventListener("change", uploadImage);
+function uploadImage() {
+  let imgLink = URL.createObjectURL(inputFile.files[0]);
+  const imgTAG = document.createElement('img');
+  imgTAG.src = imgLink;
+  imgView.textContent = "";
+  imgView.appendChild(imgTAG);
+  imgView.style.border = 0;
+  imgView.style.width = '200px'
+}
+
+//======================================================
+
+function previewImage() {
+    var fileInput = document.getElementById('fileInput');
+    var imgEdit = document.getElementById('img-edit');
+
+    if (fileInput.files && fileInput.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            imgEdit.src = e.target.result;
+        };
+
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+}
+
+//=================edit user image ends=================
 
 
   
